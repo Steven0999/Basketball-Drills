@@ -1,1 +1,102 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nutrition Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
 
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
+    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Create Food</button>
+    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Food Database</button>
+    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Set Goals</button>
+  </div>
+
+  <!-- Tracker Tab -->
+  <div id="trackerTab" class="tab-content active">
+    <h1>Nutrition Tracker</h1>
+
+    <select id="foodSelect">
+      <option value="">Select Item</option>
+    </select>
+    <input type="number" id="quantity" value="1" min="1" placeholder="Quantity" />
+    <button onclick="addEntry()">Add Entry</button>
+    <button class="reset-btn" onclick="resetLog()">Reset Log</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Qty</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+      <tfoot>
+        <tr>
+          <td><strong>Goal</strong></td>
+          <td id="goalCalories">0</td>
+          <td id="goalProtein">0</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td id="totalCalories">0</td>
+          <td id="totalProtein">0</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td><strong>Remaining</strong></td>
+          <td id="remainingCalories">0</td>
+          <td id="remainingProtein">0</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Create Food Tab -->
+  <div id="createTab" class="tab-content">
+    <h1>Create New Food</h1>
+    <input type="text" id="newFoodName" placeholder="Food name" />
+    <input type="number" id="newCalories" placeholder="Calories" />
+    <input type="number" id="newProtein" placeholder="Protein (g)" />
+    <button onclick="addFoodAndReturn()">Save Food</button>
+    <button onclick="startScanner()">Scan Barcode</button>
+    <div id="reader" style="width: 100%; margin-top: 20px;"></div>
+  </div>
+
+  <!-- Food Database Tab -->
+  <div id="databaseTab" class="tab-content">
+    <h1>Food Database</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="foodDatabaseBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Set Goals Tab -->
+  <div id="goalsTab" class="tab-content">
+    <h1>Set Your Nutrition Goals</h1>
+    <label>Calorie Goal:</label>
+    <input type="number" id="goalCaloriesInput" placeholder="e.g. 2000" />
+    <label>Protein Goal:</label>
+    <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
+    <button onclick="saveGoals()">Confirm Goals</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
