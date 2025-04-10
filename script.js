@@ -141,7 +141,13 @@ function startScanner() {
 
   Html5Qrcode.getCameras().then(devices => {
     if (devices && devices.length) {
-      const cameraId = devices[0].id;
+      const backCamera = devices.find(device =>
+        device.label.toLowerCase().includes("back") ||
+        device.label.toLowerCase().includes("rear")
+      );
+
+      const cameraId = backCamera ? backCamera.id : devices[0].id;
+
       scanner.start(
         cameraId,
         { fps: 10, qrbox: 250 },
@@ -154,31 +160,9 @@ function startScanner() {
         error => {
           console.warn(`Scanning error: ${error}`);
         }
-      );
-    }
-  }).catch(err => {
-    alert("Camera not found or permission denied.");
-  });
-}
-
-function fetchFromOpenFoodFacts(barcode) {
-  const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
-
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 1) {
-        const product = data.product;
-        document.getElementById('newFoodName').value = product.product_name || '';
-        document.getElementById('newCalories').value = product.nutriments['energy-kcal_100g'] || '';
-        document.getElementById('newProtein').value = product.nutriments['proteins_100g'] || '';
-        alert("Food data loaded! Adjust if needed and click Save Food.");
-      } else {
-        alert("Product not found in Open Food Facts.");
-      }
-    })
-    .catch(err => {
-      console.error("Fetch error: ", err);
-      alert("Error fetching food info.");
-    });
-    }
+      ).catch(err => {
+        console.error("Camera start error:", err);
+        alert("Unable to start camera.");
+      });
+    } else {
+      alert("
