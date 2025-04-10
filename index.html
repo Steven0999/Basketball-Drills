@@ -69,6 +69,18 @@
     <button onclick="addFoodAndReturn()">Save Food</button>
     <button onclick="startScanner()">Scan Barcode</button>
     <div id="reader" style="width: 100%; margin-top: 20px;"></div>
+
+    <!-- Portion Modal -->
+    <div id="portionModal" class="modal">
+      <div class="modal-content">
+        <h3>Select Portion Type</h3>
+        <label><input type="radio" name="portionOption" value="Per portion" checked /> Per portion</label><br>
+        <label><input type="radio" name="portionOption" value="Per 100g" /> Per 100g</label><br>
+        <label><input type="radio" name="portionOption" value="Other" /> Other (grams)</label>
+        <input type="number" id="customPortion" placeholder="Enter grams" style="display:none; margin-top: 5px;" /><br>
+        <button onclick="confirmPortion()">Confirm</button>
+      </div>
+    </div>
   </div>
 
   <!-- Food Database Tab -->
@@ -96,6 +108,30 @@
     <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
     <button onclick="saveGoals()">Confirm Goals</button>
   </div>
+
+  <!-- Modal Styling -->
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      padding-top: 100px;
+    }
+    .modal-content {
+      background: #fff;
+      margin: auto;
+      padding: 20px;
+      width: 300px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .modal input[type="number"] {
+      width: 80%;
+    }
+  </style>
 
   <script src="script.js"></script>
 </body>
