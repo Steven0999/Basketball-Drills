@@ -135,17 +135,18 @@ function updateGoalsDisplay() {
   document.getElementById('remainingProtein').textContent = proteinGoal - totalProtein;
 }
 
-// Barcode Scanner & Open Food Facts Fetch
 function startScanner() {
+  const readerElement = document.getElementById('reader');
+  readerElement.style.display = 'block';
+  readerElement.innerHTML = '';
+
   const scanner = new Html5Qrcode("reader");
 
   Html5Qrcode.getCameras().then(devices => {
     if (devices && devices.length) {
       const backCamera = devices.find(device =>
-        device.label.toLowerCase().includes("back") ||
-        device.label.toLowerCase().includes("rear")
+        device.label.toLowerCase().includes("back") || device.label.toLowerCase().includes("rear")
       );
-
       const cameraId = backCamera ? backCamera.id : devices[0].id;
 
       scanner.start(
@@ -153,16 +154,41 @@ function startScanner() {
         { fps: 10, qrbox: 250 },
         barcode => {
           scanner.stop().then(() => {
-            document.getElementById('reader').innerHTML = '';
+            readerElement.innerHTML = '';
             fetchFromOpenFoodFacts(barcode);
           });
         },
-        error => {
-          console.warn(`Scanning error: ${error}`);
-        }
+        error => { /* Ignore scan errors */ }
       ).catch(err => {
-        console.error("Camera start error:", err);
-        alert("Unable to start camera.");
+        console.error("Failed to start camera:", err);
+        alert("Could not access camera.");
       });
     } else {
-      alert("
+      alert("No camera found.");
+    }
+  }).catch(err => {
+    console.error("Camera access error:", err);
+    alert("Camera error.");
+  });
+}
+
+function fetchFromOpenFoodFacts(barcode) {
+  const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 1) {
+        const product = data.product;
+        document.getElementById('newFoodName').value = product.product_name || '';
+        document.getElementById('newCalories').value = product.nutriments['energy-kcal_100g'] || '';
+        document.getElementById('newProtein').value = product.nutriments['proteins_100g'] || '';
+        alert("Food data loaded from barcode!");
+      } else {
+        alert("Product not found.");
+      }
+    })
+    .catch(err => {
+      console.error("Fetch error:", err);
+      alert("API fetch failed.");
+    });
+}
