@@ -135,3 +135,52 @@ function saveGoals() {
   goals.protein = parseFloat(document.getElementById('goalProteinInput').value) || 0;
   updateGoalsDisplay();
   document.querySelector('.tab-btn[data-tab="trackerTab"]').click();
+}
+
+function updateGoalsDisplay() {
+  document.getElementById('goalCalories').textContent = goals.calories;
+  document.getElementById('goalProtein').textContent = goals.protein;
+}
+
+function startScanner() {
+  const reader = new Html5QrcodeScanner('reader', {
+    fps: 10,
+    qrbox: 250
+  });
+  reader.render(onScanSuccess, onScanFailure);
+}
+
+function onScanSuccess(decodedText, decodedResult) {
+  alert(`Barcode scanned: ${decodedText}`);
+  openPortionPopup();
+}
+
+function onScanFailure(error) {
+  console.error(error);
+}
+
+function openPortionPopup() {
+  document.getElementById('portionPopup').style.display = "block";
+}
+
+function setPortionType(type) {
+  selectedPortion = type === 'portion' ? 1 : (type === '100g' ? 100 : 1);
+  closePortionPopup();
+  alert(`Portion type set to ${type}`);
+}
+
+function customPortion() {
+  document.getElementById('customPortionInput').style.display = "inline";
+  document.getElementById('customPortionBtn').style.display = "inline";
+}
+
+function confirmCustomPortion() {
+  const customAmount = document.getElementById('customPortionInput').value;
+  selectedPortion = parseFloat(customAmount) || 1;
+  closePortionPopup();
+  alert(`Custom portion set to ${selectedPortion}g`);
+}
+
+function closePortionPopup() {
+  document.getElementById('portionPopup').style.display = "none";
+}
