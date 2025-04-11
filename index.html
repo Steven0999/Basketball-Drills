@@ -9,10 +9,10 @@
 <body>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
-    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Create Food</button>
-    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Food Database</button>
-    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Set Goals</button>
+    <button class="tab-btn active" data-tab="trackerTab">Tracker</button>
+    <button class="tab-btn" data-tab="createTab">Create Food</button>
+    <button class="tab-btn" data-tab="databaseTab">Food Database</button>
+    <button class="tab-btn" data-tab="goalsTab">Set Goals</button>
   </div>
 
   <!-- Tracker Tab -->
@@ -22,7 +22,7 @@
       <option value="">Select Item</option>
     </select>
     <input type="number" id="quantity" value="1" min="1" placeholder="Quantity" />
-    <button onclick="addEntry()">Add Entry</button>
+    <button onclick="showPortionPopup()">Add Entry</button>
     <button class="reset-btn" onclick="resetLog()">Reset Log</button>
 
     <table>
@@ -94,6 +94,16 @@
     <label>Protein Goal:</label>
     <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
     <button onclick="saveGoals()">Confirm Goals</button>
+  </div>
+
+  <!-- Portion Type Popup -->
+  <div id="portionPopup" class="tab-content popup" style="display:none;">
+    <h3>Select Portion Type</h3>
+    <button onclick="setPortionType('portion')">Per Portion</button>
+    <button onclick="setPortionType('100g')">Per 100g</button>
+    <button onclick="customPortion()">Other (Custom grams)</button>
+    <input type="number" id="customPortionInput" style="display:none;" placeholder="Enter grams" />
+    <button onclick="confirmCustomPortion()" style="display:none;" id="customPortionBtn">Confirm</button>
   </div>
 
   <script src="script.js"></script>
