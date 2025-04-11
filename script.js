@@ -3,15 +3,27 @@ let foodLog = [];
 let goals = { calories: 0, protein: 0 };
 let selectedPortion = 1;
 
-document.querySelectorAll('.tab-btn').forEach(button => {
-  button.addEventListener('click', () => {
-    const tabId = button.getAttribute('data-tab');
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    button.classList.add('active');
-    document.getElementById(tabId).classList.add('active');
-    updateDropdown();
-    updateGoalsDisplay();
+document.addEventListener('DOMContentLoaded', function() {
+  // Tab switching functionality
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const tabId = button.getAttribute('data-tab');
+
+      // Deactivate all tabs and buttons
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(tab => tab.classList.remove('active'));
+
+      // Activate the clicked tab
+      button.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+
+      // Update dropdown and goals display
+      updateDropdown();
+      updateGoalsDisplay();
+    });
   });
 });
 
@@ -123,58 +135,3 @@ function saveGoals() {
   goals.protein = parseFloat(document.getElementById('goalProteinInput').value) || 0;
   updateGoalsDisplay();
   document.querySelector('.tab-btn[data-tab="trackerTab"]').click();
-}
-
-function updateGoalsDisplay() {
-  document.getElementById('goalCalories').textContent = goals.calories;
-  document.getElementById('goalProtein').textContent = goals.protein;
-  renderLog();
-}
-
-// Barcode scanner
-let scanner;
-
-function startScanner() {
-  scanner = new Html5Qrcode("reader");
-  Html5Qrcode.getCameras().then(devices => {
-    const backCamera = devices.find(d => d.label.toLowerCase().includes('back')) || devices[0];
-    if (backCamera) {
-      scanner.start(
-        backCamera.id,
-        { fps: 10, qrbox: 250 },
-        (decodedText) => {
-          alert("Scanned: " + decodedText);
-          scanner.stop();
-        },
-        (error) => { console.warn(error); }
-      );
-    }
-  });
-}
-
-// Portion Popup
-function showPortionPopup() {
-  document.getElementById('portionPopup').style.display = 'block';
-}
-
-function setPortionType(type) {
-  selectedPortion = type === 'portion' ? 1 : 0.01;
-  document.getElementById('portionPopup').style.display = 'none';
-  addEntry();
-}
-
-function customPortion() {
-  document.getElementById('customPortionInput').style.display = 'inline';
-  document.getElementById('customPortionBtn').style.display = 'inline';
-}
-
-function confirmCustomPortion() {
-  const grams = parseFloat(document.getElementById('customPortionInput').value);
-  if (!isNaN(grams) && grams > 0) {
-    selectedPortion = grams / 100;
-    document.getElementById('portionPopup').style.display = 'none';
-    document.getElementById('customPortionInput').style.display = 'none';
-    document.getElementById('customPortionBtn').style.display = 'none';
-    addEntry();
-  }
-}
