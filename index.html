@@ -1,80 +1,103 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Food Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="tab-buttons">
-    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
-    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Add Food</button>
-    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Goals</button>
-    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Database</button>
-    <button class="tab-btn" onclick="switchTab(event, 'historyTab')">History</button>
-  </div>  <div id="trackerTab" class="tab-content active">
-    <h2>Food Tracker</h2>
-    <input type="text" id="searchInput" placeholder="Search food..." oninput="searchFood()" />
-    <div id="searchResults"></div>
-    <select id="mealType">
-      <option value="Breakfast">Breakfast</option>
-      <option value="Lunch">Lunch</option>
-      <option value="Dinner">Dinner</option>
-    </select>
-    <select id="servingType" onchange="toggleCustomWeight()">
-      <option value="default">Default</option>
-      <option value="custom">Custom (g)</option>
-    </select>
-    <input type="number" id="customWeight" placeholder="Weight in grams" style="display:none;" />
-    <input type="number" id="quantity" value="1" min="1" />
-    <button onclick="addEntry()">Add Entry</button>
-    <button onclick="resetLog()">Reset Log</button>
-    <button onclick="saveDailyLog()">Save Day</button><table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Meal</th><th>Calories</th><th>Protein</th><th>Qty</th><th>Remove</th>
-    </tr>
-  </thead>
-  <tbody id="logBody"></tbody>
-</table>
+  <div class="container">
+    <!-- Tab navigation -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
+      <button class="tab-btn" onclick="switchTab(event, 'historyTab')">History</button>
+      <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Database</button>
+      <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Goals</button>
+    </div>
 
-<div class="totals">
-  <p>Goal Calories: <span id="goalCalories">0</span></p>
-  <p>Goal Protein: <span id="goalProtein">0</span></p>
-  <p>Total Calories: <span id="totalCalories">0</span></p>
-  <p>Total Protein: <span id="totalProtein">0</span></p>
-  <p>Remaining Calories: <span id="remainingCalories">0</span></p>
-  <p>Remaining Protein: <span id="remainingProtein">0</span></p>
-</div>
+    <!-- Tab content -->
+    <div id="trackerTab" class="tab-content active">
+      <!-- Tracker Section (log entries, meal, and add food) -->
+      <h2>Food Tracker</h2>
+      <div id="foodLog">
+        <input type="text" id="searchInput" placeholder="Search food" oninput="searchFood()">
+        <div id="searchResults"></div>
+        <input type="number" id="quantity" value="1" min="1">
+        <select id="mealType">
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+        </select>
+        <select id="servingType" onchange="toggleCustomWeight()">
+          <option value="default">Default</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="number" id="customWeight" placeholder="Enter weight" style="display:none">
+        <button onclick="addEntry()">Add Entry</button>
+      </div>
 
-  </div>  <div id="createTab" class="tab-content">
-    <h2>Add New Food</h2>
-    <input type="text" id="newFoodName" placeholder="Food name" />
-    <input type="number" id="newCalories" placeholder="Calories per 100g" />
-    <input type="number" id="newProtein" placeholder="Protein per 100g" />
-    <button onclick="addFoodAndReturn()">Save Food</button>
-  </div>  <div id="goalsTab" class="tab-content">
-    <h2>Set Goals</h2>
-    <input type="number" id="goalCaloriesInput" placeholder="Calorie goal" />
-    <input type="number" id="goalProteinInput" placeholder="Protein goal" />
-    <input type="number" id="bodyWeight" placeholder="Your weight (kg)" />
-    <button onclick="saveGoals()">Save Goals</button>
-  </div>  <div id="databaseTab" class="tab-content">
-    <h2>Food Database</h2>
-    <input type="text" id="dbSearchInput" placeholder="Search database..." oninput="searchDatabase()" />
-    <table>
-      <thead>
-        <tr><th>Name</th><th>Calories</th><th>Protein</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="databaseBody"></tbody>
-    </table>
-  </div>  <div id="historyTab" class="tab-content">
-    <h2>History</h2>
-    <select id="historyViewSelect" onchange="changeHistoryView(this.value)">
-      <option value="daily">Daily</option>
-      <option value="weekly">Weekly</option>
-      <option value="monthly">Monthly</option>
-    </select>
-    <div id="historyContent"></div>
-  </div>  <script src="script.js"></script>  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script></body>
+      <table>
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Meal</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Quantity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+
+      <div>
+        <p>Total Calories: <span id="totalCalories">0</span></p>
+        <p>Total Protein: <span id="totalProtein">0</span></p>
+        <p>Remaining Calories: <span id="remainingCalories">0</span></p>
+        <p>Remaining Protein: <span id="remainingProtein">0</span></p>
+        <button onclick="resetLog()">Reset Log</button>
+        <button onclick="saveDaySummary()">Save Day</button> <!-- New Button for Saving Day -->
+      </div>
+    </div>
+
+    <!-- History Section (Daily, Weekly, Monthly) -->
+    <div id="historyTab" class="tab-content">
+      <h2>History</h2>
+      <select id="historyViewSelect" onchange="updateHistoryView(this.value)">
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+      <div id="historyView"></div>
+    </div>
+
+    <!-- Food Database Section -->
+    <div id="databaseTab" class="tab-content">
+      <h2>Food Database</h2>
+      <div>
+        <input type="text" id="newFoodName" placeholder="Food name">
+        <input type="number" id="newCalories" placeholder="Calories per 100g">
+        <input type="number" id="newProtein" placeholder="Protein per 100g">
+        <button onclick="addFoodAndReturn()">Add Food</button>
+      </div>
+      <h3>Food List</h3>
+      <ul id="foodList"></ul>
+    </div>
+
+    <!-- Goals Section -->
+    <div id="goalsTab" class="tab-content">
+      <h2>Set Your Goals</h2>
+      <input type="number" id="goalCaloriesInput" placeholder="Goal Calories">
+      <input type="number" id="goalProteinInput" placeholder="Goal Protein">
+      <button onclick="saveGoals()">Save Goals</button>
+      <div>
+        <p>Goal Calories: <span id="goalCalories">0</span></p>
+        <p>Goal Protein: <span id="goalProtein">0</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</body>
 </html>
