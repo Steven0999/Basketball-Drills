@@ -1,26 +1,29 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
   padding: 20px;
-  background: black;
-  color: grey;
+  background: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
 }
 
 .tabs {
   display: flex;
-  gap: 10px;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
 .tab-btn {
-  padding: 10px 15px;
-  background: orange;
+  padding: 10px 20px;
+  margin: 0 5px;
+  background: #ddd;
   border: none;
   cursor: pointer;
 }
 
 .tab-btn.active {
-  background: grey;
+  background: #2196f3;
   color: white;
 }
 
@@ -32,26 +35,44 @@ body {
   display: block;
 }
 
+.input-section {
+  margin-bottom: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-}
-
-table, th, td {
-  border: 1px solid #999;
+  margin-top: 10px;
 }
 
 th, td {
-  padding: 10px;
+  border: 1px solid #ccc;
+  padding: 8px;
   text-align: center;
 }
 
-.reset-btn {
-  margin-left: 10px;
-  background-color: red;
+.meal-header {
+  background: #2196f3;
   color: white;
-  padding: 6px 12px;
-  border: none;
+  font-weight: bold;
+}
+
+.summary {
+  margin-top: 20px;
+}
+
+#searchResults {
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+#searchResults div {
+  padding: 5px;
   cursor: pointer;
+}
+
+#searchResults div:hover {
+  background: #e0e0e0;
 }
