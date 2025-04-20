@@ -3,32 +3,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nutrition Tracker</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <h1>Nutrition Tracker</h1>
 
   <div class="tabs">
-    <button class="tab-btn active" data-tab="trackerTab">Tracker</button>
-    <button class="tab-btn" data-tab="createTab">Create Food</button>
-    <button class="tab-btn" data-tab="databaseTab">Food Database</button>
-    <button class="tab-btn" data-tab="goalsTab">Set Goals</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
+    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Add Food</button>
+    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Database</button>
+    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Goals</button>
+    <button class="tab-btn" onclick="switchTab(event, 'historyTab')">History</button>
   </div>
 
-  <!-- Tracker Tab -->
   <div id="trackerTab" class="tab-content active">
-    <h1>Nutrition Tracker</h1>
-    <select id="foodSelect">
-      <option value="">Select Item</option>
-    </select>
-    <input type="number" id="quantity" value="1" min="1" placeholder="Quantity" />
-    <button onclick="addEntry()">Add Entry</button>
-    <button class="reset-btn" onclick="resetLog()">Reset Log</button>
+    <div class="input-section">
+      <input type="text" id="searchInput" placeholder="Search food..." oninput="searchFood()" />
+      <div id="searchResults"></div>
+
+      <select id="mealType">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+      </select>
+
+      <input type="number" id="quantity" value="1" min="1" />
+      <select id="servingType" onchange="toggleCustomWeight()">
+        <option value="default">Default</option>
+        <option value="custom">Custom (per 100g)</option>
+      </select>
+      <input type="number" id="customWeight" style="display:none;" placeholder="Weight in g" />
+
+      <button onclick="addEntry()">Add Entry</button>
+      <button onclick="resetLog()">Reset Log</button>
+      <button onclick="saveToday()">Save Day</button>
+    </div>
 
     <table>
       <thead>
         <tr>
           <th>Food</th>
+          <th>Meal</th>
           <th>Calories</th>
           <th>Protein</th>
           <th>Qty</th>
@@ -36,76 +51,60 @@
         </tr>
       </thead>
       <tbody id="logBody"></tbody>
-      <tfoot>
-        <tr>
-          <td><strong>Goal</strong></td>
-          <td id="goalCalories">0</td>
-          <td id="goalProtein">0</td>
-          <td colspan="2"></td>
-        </tr>
-        <tr>
-          <td><strong>Total</strong></td>
-          <td id="totalCalories">0</td>
-          <td id="totalProtein">0</td>
-          <td colspan="2"></td>
-        </tr>
-        <tr>
-          <td><strong>Remaining</strong></td>
-          <td id="remainingCalories">0</td>
-          <td id="remainingProtein">0</td>
-          <td colspan="2"></td>
-        </tr>
-      </tfoot>
     </table>
+
+    <div class="summary">
+      <p>Goal Calories: <span id="goalCalories">0</span></p>
+      <p>Goal Protein: <span id="goalProtein">0</span></p>
+      <p>Total Calories: <span id="totalCalories">0</span></p>
+      <p>Total Protein: <span id="totalProtein">0</span></p>
+      <p>Remaining Calories: <span id="remainingCalories">0</span></p>
+      <p>Remaining Protein: <span id="remainingProtein">0</span></p>
+    </div>
   </div>
 
-  <!-- Create Food Tab -->
   <div id="createTab" class="tab-content">
-    <h1>Create New Food</h1>
     <input type="text" id="newFoodName" placeholder="Food name" />
     <input type="number" id="newCalories" placeholder="Calories" />
-    <input type="number" id="newProtein" placeholder="Protein (g)" />
-    <button onclick="addFoodAndReturn()">Save Food</button>
+    <input type="number" id="newProtein" placeholder="Protein" />
+    <button onclick="addFoodAndReturn()">Add Food</button>
     <button onclick="startScanner()">Scan Barcode</button>
-    <div id="reader" style="width: 100%; margin-top: 20px;"></div>
+    <div id="reader" style="width: 300px;"></div>
   </div>
 
-  <!-- Food Database Tab -->
   <div id="databaseTab" class="tab-content">
-    <h1>Food Database</h1>
+    <input type="text" placeholder="Search database..." oninput="searchDatabase(this.value)" />
     <table>
       <thead>
         <tr>
           <th>Food</th>
           <th>Calories</th>
           <th>Protein</th>
-          <th>Delete</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody id="foodDatabaseBody"></tbody>
     </table>
   </div>
 
-  <!-- Set Goals Tab -->
   <div id="goalsTab" class="tab-content">
-    <h1>Set Your Nutrition Goals</h1>
-    <label>Calorie Goal:</label>
-    <input type="number" id="goalCaloriesInput" placeholder="e.g. 2000" />
-    <label>Protein Goal:</label>
-    <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
-    <button onclick="saveGoals()">Confirm Goals</button>
+    <input type="number" id="goalCaloriesInput" placeholder="Daily Calorie Goal" />
+    <input type="number" id="goalProteinInput" placeholder="Daily Protein Goal" />
+    <input type="number" id="userWeightInput" placeholder="Your Weight (kg)" />
+    <button onclick="saveGoals()">Save Goals</button>
   </div>
 
-  <!-- Portion Type Popup -->
-  <div id="portionPopup" class="tab-content popup" style="display:none;">
-    <h3>Select Portion Type</h3>
-    <button onclick="setPortionType('portion')">Per Portion</button>
-    <button onclick="setPortionType('100g')">Per 100g</button>
-    <button onclick="customPortion()">Other (Custom grams)</button>
-    <input type="number" id="customPortionInput" style="display:none;" placeholder="Enter grams" />
-    <button onclick="confirmCustomPortion()" style="display:none;" id="customPortionBtn">Confirm</button>
+  <div id="historyTab" class="tab-content">
+    <label>View:</label>
+    <select onchange="changeHistoryView(this.value)">
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+      <option value="monthly">Monthly</option>
+    </select>
+    <div id="historyView"></div>
   </div>
 
   <script src="script.js"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </body>
 </html>
