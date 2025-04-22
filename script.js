@@ -151,24 +151,42 @@ function showHistory() {
   daily.innerHTML = "<table><tr><th>Date</th><th>Calories</th><th>Protein</th></tr>" +
     history.map(day => `<tr><td>${day.date}</td><td>${day.calories.toFixed(1)}</td><td>${day.protein.toFixed(1)}</td></tr>`).join("") + "</table>";
 
-  const weekData = {};
-  history.forEach(h => {
-    const d = new Date(h.date);
-    const year = d.getFullYear();
-    const week = `${year}-W${Math.ceil(((d - new Date(year, 0, 1)) / 86400000 + new Date(year, 0, 1).getDay() + 1) / 7)}`;
-    if (!weekData[week]) weekData[week] = { cal: 0, pro: 0, days: 0 };
-    weekData[week].cal += h.calories;
-    weekData[week].pro += h.protein;
-    weekData[week].days++;
+  const weeklyMap = {};
+
+  history.forEach(entry => {
+    const date = new Date(entry.date);
+    const monday = new Date(date);
+    monday.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+    const weekKey = monday.toISOString().split("T")[0];
+
+    if (!weeklyMap[weekKey]) {
+      weeklyMap[weekKey] = { Monday: null, Tuesday: null, Wednesday: null, Thursday: null, Friday: null, Saturday: null, Sunday: null };
+    }
+
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayName = dayNames[date.getDay()];
+    weeklyMap[weekKey][dayName] = entry;
   });
 
   const weeklyGoal = goals.calories * 7;
-  weekly.innerHTML = `<table><tr><th>Week</th><th>Total Calories</th><th>Total Protein</th><th>Remaining Daily Avg</th></tr>` +
-    Object.entries(weekData).map(([week, data]) => {
-      const remaining = data.days < 7 
-        ? ((weeklyGoal - data.cal) / (7 - data.days)).toFixed(1) 
-        : "0.0";
-      return `<tr><td>${week}</td><td>${data.cal.toFixed(1)}</td><td>${data.pro.toFixed(1)}</td><td>${remaining}</td></tr>`;
+
+  weekly.innerHTML = "<table><tr><th>Week Starting</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th><th>Total</th><th>Remaining Daily Avg</th></tr>" +
+    Object.entries(weeklyMap).map(([weekStart, days]) => {
+      let totalCal = 0, totalPro = 0, daysCounted = 0;
+      const row = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => {
+        const entry = days[day];
+        if (entry) {
+          totalCal += entry.calories;
+          totalPro += entry.protein;
+          daysCounted++;
+          return `<td>${entry.calories.toFixed(1)} cal<br>${entry.protein.toFixed(1)}g</td>`;
+        } else {
+          return "<td>-</td>";
+        }
+      }).join("");
+
+      const remaining = daysCounted < 7 ? ((weeklyGoal - totalCal) / (7 - daysCounted)).toFixed(1) : "0.0";
+      return `<tr><td>${weekStart}</td>${row}<td>${totalCal.toFixed(1)}<br>${totalPro.toFixed(1)}g</td><td>${remaining}</td></tr>`;
     }).join("") + "</table>";
 
   monthly.innerHTML = '<p>Monthly summary coming soon</p>';
