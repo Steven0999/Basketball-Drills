@@ -1,106 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nutrition Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Tracker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>Nutrition Tracker</header>
-  <div class="container">
 
+<div class="container">
+    <h1>Nutrition Tracker</h1>
+    
+    <!-- Tabs for switching content -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')" data-tab="trackerTab">Tracker</button>
-      <button class="tab-btn" onclick="switchTab(event, 'createTab')" data-tab="createTab">Add Food</button>
-      <button class="tab-btn" onclick="switchTab(event, 'databaseTab')" data-tab="databaseTab">Food Database</button>
-      <button class="tab-btn" onclick="switchTab(event, 'goalsTab')" data-tab="goalsTab">Set Goals</button>
-      <button class="tab-btn" onclick="switchTab(event, 'historyTab')" data-tab="historyTab">History</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
+        <button class="tab-btn" onclick="switchTab(event, 'historyTab')">History</button>
+        <button class="tab-btn" onclick="switchTab(event, 'createTab')">Add Food</button>
+        <button class="tab-btn" onclick="switchTab(event, 'settingsTab')">Settings</button>
     </div>
 
-    <!-- Tracker Tab -->
+    <!-- Tracker Tab Content -->
     <div id="trackerTab" class="tab-content active">
-      <h2>Log Food</h2>
-      <input type="text" id="searchInput" placeholder="Search food..." oninput="searchFood()">
-      <div id="searchResults"></div>
-
-      <select id="mealType">
-        <option value="Breakfast">Breakfast</option>
-        <option value="Lunch">Lunch</option>
-        <option value="Dinner">Dinner</option>
-        <option value="Snack">Snack</option>
-      </select>
-
-      <input type="number" id="quantity" placeholder="Quantity">
-      <select id="servingType" onchange="toggleCustomWeight()">
-        <option value="default">Per 100g</option>
-        <option value="custom">Custom Weight</option>
-      </select>
-      <input type="number" id="customWeight" placeholder="Enter weight (g)">
-
-      <button onclick="addEntry()">Add Entry</button>
-      <button onclick="resetLog()">Reset Log</button>
-      <button onclick="saveDay()">Save Day</button>
-
-      <h3>Daily Log</h3>
-      <table>
-        <thead>
-          <tr><th>Food</th><th>Meal</th><th>Calories</th><th>Protein</th><th>Qty</th><th>Remove</th></tr>
-        </thead>
-        <tbody id="logBody"></tbody>
-      </table>
-
-      <div class="total-section">
-        <strong>Total Calories:</strong> <span id="totalCalories">0</span> kcal<br>
-        <strong>Total Protein:</strong> <span id="totalProtein">0</span> g<br>
-        <strong>Goal Calories:</strong> <span id="goalCalories">0</span> kcal<br>
-        <strong>Goal Protein:</strong> <span id="goalProtein">0</span> g<br>
-        <strong>Remaining Calories:</strong> <span id="remainingCalories">0</span> kcal<br>
-        <strong>Remaining Protein:</strong> <span id="remainingProtein">0</span> g
-      </div>
+        <h2>Track Your Meals</h2>
+        <div>
+            <label for="searchInput">Search Food:</label>
+            <input type="text" id="searchInput" oninput="searchFood()" placeholder="Search food...">
+            <div id="searchResults"></div>
+        </div>
+        <div>
+            <label for="mealType">Meal Type:</label>
+            <select id="mealType">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+            </select>
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" value="1" min="1" step="0.1">
+        </div>
+        <div>
+            <label for="servingType">Serving Type:</label>
+            <select id="servingType" onchange="toggleCustomWeight()">
+                <option value="standard">Standard (100g)</option>
+                <option value="custom">Custom</option>
+            </select>
+            <div id="customWeight" style="display: none;">
+                <label for="customWeightInput">Enter Weight (grams):</label>
+                <input type="number" id="customWeight" min="1" step="1">
+            </div>
+        </div>
+        <button onclick="addEntry()">Add Entry</button>
+        <div>
+            <h3>Today's Totals</h3>
+            <p>Calories: <span id="totalCalories">0</span> kcal</p>
+            <p>Protein: <span id="totalProtein">0</span> g</p>
+            <p>Goal Calories: <span id="goalCalories">0</span> kcal</p>
+            <p>Goal Protein: <span id="goalProtein">0</span> g</p>
+            <p>Remaining Calories: <span id="remainingCalories">0</span> kcal</p>
+            <p>Remaining Protein: <span id="remainingProtein">0</span> g</p>
+        </div>
     </div>
 
-    <!-- Create Food Tab -->
-    <div id="createTab" class="tab-content">
-      <h2>Add New Food</h2>
-      <input type="text" id="newFoodName" placeholder="Food name">
-      <input type="number" id="newCalories" placeholder="Calories per 100g">
-      <input type="number" id="newProtein" placeholder="Protein per 100g">
-      <button onclick="addFoodAndReturn()">Add Food</button>
-    </div>
-
-    <!-- Food Database Tab -->
-    <div id="databaseTab" class="tab-content">
-      <h2>Food Database</h2>
-      <input type="text" id="dbSearch" placeholder="Search database..." oninput="searchDatabase()">
-      <div id="databaseResults"></div>
-    </div>
-
-    <!-- Goals Tab -->
-    <div id="goalsTab" class="tab-content">
-      <h2>Set Daily Goals</h2>
-      <input type="number" id="goalCaloriesInput" placeholder="Calories goal">
-      <input type="number" id="goalProteinInput" placeholder="Protein goal (g)">
-      <button onclick="saveGoals()">Save Goals</button>
-    </div>
-
-    <!-- History Tab -->
+    <!-- History Tab Content -->
     <div id="historyTab" class="tab-content">
-      <h2>History</h2>
-      <div class="history-tabs">
-        <button onclick="switchHistoryView('daily')" class="active">Daily</button>
-        <button onclick="switchHistoryView('weekly')">Weekly</button>
-        <button onclick="switchHistoryView('monthly')">Monthly</button>
-      </div>
-
-      <div id="dailyView" class="history-view active"></div>
-      <div id="weeklyView" class="history-view"></div>
-      <div id="monthlyView" class="history-view"></div>
+        <h2>History</h2>
+        <button onclick="saveDay()">Save Day</button>
+        <div id="dailyView" class="history-view active"></div>
+        <div id="weeklyView" class="history-view"></div>
+        <div id="monthlyView" class="history-view"></div>
+        <div>
+            <button onclick="switchHistoryView('daily')">Daily</button>
+            <button onclick="switchHistoryView('weekly')">Weekly</button>
+            <button onclick="switchHistoryView('monthly')">Monthly</button>
+        </div>
     </div>
 
-  </div>
+    <!-- Add Food Tab Content -->
+    <div id="createTab" class="tab-content">
+        <h2>Add New Food</h2>
+        <div>
+            <label for="newFoodName">Food Name:</label>
+            <input type="text" id="newFoodName">
+        </div>
+        <div>
+            <label for="newCalories">Calories per 100g:</label>
+            <input type="number" id="newCalories">
+        </div>
+        <div>
+            <label for="newProtein">Protein per 100g:</label>
+            <input type="number" id="newProtein">
+        </div>
+        <button onclick="addFoodAndReturn()">Add Food</button>
+    </div>
 
-  <footer>&copy; 2025 Nutrition Tracker</footer>
-  <script src="script.js"></script>
+    <!-- Settings Tab Content -->
+    <div id="settingsTab" class="tab-content">
+        <h2>Set Your Goals</h2>
+        <div>
+            <label for="goalCaloriesInput">Calories Goal:</label>
+            <input type="number" id="goalCaloriesInput">
+        </div>
+        <div>
+            <label for="goalProteinInput">Protein Goal:</label>
+            <input type="number" id="goalProteinInput">
+        </div>
+        <button onclick="saveGoals()">Save Goals</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
