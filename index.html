@@ -1,12 +1,10 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nutrition Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Include any necessary libraries here -->
 </head>
 <body>
   <!-- Navigation Tabs -->
@@ -15,6 +13,7 @@
     <button class="tab-btn" onclick="switchTab(event, 'createTab')">Create Food</button>
     <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Food Database</button>
     <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Set Goals</button>
+    <button class="tab-btn" onclick="switchTab(event, 'reportsTab')">Reports</button>
   </div>
 
   <!-- Tracker Tab -->
@@ -71,11 +70,19 @@
   <!-- Create Food Tab -->
   <div id="createTab" class="tab-content">
     <h1>Create New Food</h1>
-    <input type="text" id="newFoodName" placeholder="Food name" />
-    <input type="number" id="newCalories" placeholder="Calories" />
-    <input type="number" id="newProtein" placeholder="Protein (g)" />
-    <button onclick="showServingPopup()">Save Food</button>
-    <button onclick="startScanner()">Scan Barcode</button>
+    <form>
+      <input type="text" id="newFoodName" placeholder="Food name" required />
+      <input type="number" id="newCalories" placeholder="Calories" required />
+      <input type="number" id="newProtein" placeholder="Protein (g)" required />
+      <select id="servingType">
+        <option value="portion">Per Portion</option>
+        <option value="100g">Per 100g</option>
+        <option value="custom">Custom (grams)</option>
+      </select>
+      <input type="number" id="customAmount" placeholder="Enter gram amount (optional)" />
+      <button type="button" onclick="saveNewFood()">Save Food</button>
+      <button type="button" onclick="startScanner()">Scan Barcode</button>
+    </form>
     <div id="reader" style="width: 100%; margin-top: 20px;"></div>
   </div>
 
@@ -88,6 +95,7 @@
           <th>Food</th>
           <th>Calories</th>
           <th>Protein</th>
+          <th>Serving Type</th>
           <th>Delete</th>
         </tr>
       </thead>
@@ -105,16 +113,30 @@
     <button onclick="saveGoals()">Confirm Goals</button>
   </div>
 
+  <!-- Reports Tab -->
+  <div id="reportsTab" class="tab-content">
+    <h1>Nutrition Summary Reports</h1>
+    <div>
+      <p>Total Entries: <span id="entryCount">0</span></p>
+      <p>Most Eaten Meal Type: <span id="mostEatenMeal">N/A</span></p>
+      <p>Average Calories per Meal: <span id="avgCalories">0</span></p>
+    </div>
+  </div>
+
   <!-- Popup for Serving Type -->
   <div id="servingPopup" class="popup">
     <div class="popup-content">
       <p>Choose how nutrition is recorded:</p>
       <button onclick="submitFood('portion')">Per Portion</button>
       <button onclick="submitFood('100g')">Per 100g</button>
-      <input type="number" id="customAmount" placeholder="Enter custom gram amount" />
+      <input type="number" id="popupCustomAmount" placeholder="Enter custom gram amount" />
       <button onclick="submitFood('custom')">Use Custom</button>
     </div>
   </div>
+
+  <footer>
+    <p>&copy; 2025 Nutrition Tracker App</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
