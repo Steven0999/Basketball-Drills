@@ -1,145 +1,177 @@
-let foodDatabase = [];
-let foodLog = [];
-let goals = { calories: 0, protein: 0 };
+// Global variables
+let foodDB = JSON.parse(localStorage.getItem("foodDB")) || [];
+let foodLog = JSON.parse(localStorage.getItem("foodLog")) || [];
+let goals = JSON.parse(localStorage.getItem("goals")) || { calories: 0, protein: 0 };
 
-function switchTab(evt, tabId) {
-  document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  evt.currentTarget.classList.add('active');
+function switchTab(event, tabId) {
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+  event.currentTarget.classList.add("active");
+  renderFoodDatabase();
+  updateFoodSelect();
+  renderTracker();
 }
 
 function addFoodAndReturn() {
-  const name = document.getElementById('newFoodName').value;
-  const calories = parseFloat(document.getElementById('newCalories').value);
-  const protein = parseFloat(document.getElementById('newProtein').value);
-  if (!name || isNaN(calories) || isNaN(protein)) return;
-
-  foodDatabase.push({ name, calories, protein });
-  updateFoodSelect();
-  updateDatabaseTable();
-  switchTab({ currentTarget: document.querySelector('.tab-btn') }, 'trackerTab');
+  const name = document.getElementById("newFoodName").value;
+  const calories = parseFloat(document.getElementById("newCalories").value);
+  const protein = parseFloat(document.getElementById("newProtein").value);
+  const barcode = document.getElementById("barcode").value;
+  if (name && !isNaN(calories) && !isNaN(protein)) {
+    foodDB.push({ name, calories, protein, barcode });
+    localStorage.setItem("foodDB", JSON.stringify(foodDB));
+    switchTab({ currentTarget: document.querySelector(".tab-btn:first-child") }, "trackerTab");
+  }
 }
 
 function updateFoodSelect() {
-  const select = document.getElementById('foodSelect');
+  const select = document.getElementById("foodSelect");
   select.innerHTML = '<option value="">Select Item</option>';
-  foodDatabase.forEach((item, index) => {
-    const option = document.createElement('option');
-    option.value = index;
-    option.textContent = item.name;
-    select.appendChild(option);
+  foodDB.forEach((food, i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = food.name;
+    select.appendChild(opt);
   });
 }
 
-function updateDatabaseTable() {
-  const body = document.getElementById('foodDatabaseBody');
-  body.innerHTML = '';
-  foodDatabase.forEach((item, index) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${item.calories}</td>
-      <td>${item.protein}</td>
-      <td><button onclick="deleteFood(${index})">X</button></td>
-    `;
-    body.appendChild(row);
+function filterFoodSelect() {
+  const input = document.getElementById("foodSearch").value.toLowerCase();
+  const select = document.getElementById("foodSelect");
+  Array.from(select.options).forEach(option => {
+    option.style.display = option.text.toLowerCase().includes(input) ? "" : "none";
   });
-}
-
-function deleteFood(index) {
-  foodDatabase.splice(index, 1);
-  updateFoodSelect();
-  updateDatabaseTable();
 }
 
 function addEntry() {
-  const foodIndex = document.getElementById('foodSelect').value;
-  const quantity = parseFloat(document.getElementById('quantity').value) || 1;
-  const isSnack = document.getElementById('isSnack').checked;
-  if (foodIndex === "") return;
-
-  const food = foodDatabase[foodIndex];
-  const entry = {
-    ...food,
-    quantity,
-    isSnack
-  };
-
-  foodLog.push(entry);
-  renderLog();
+  const idx = document.getElementById("foodSelect").value;
+  const qty = parseFloat(document.getElementById("quantity").value);
+  const meal = document.getElementById("mealType").value;
+  if (idx === "" || isNaN(qty) || qty <= 0) return;
+  const food = foodDB[idx];
+  foodLog.push({ ...food, qty, meal });
+  localStorage.setItem("foodLog", JSON.stringify(foodLog));
+  renderTracker();
 }
 
-function renderLog() {
-  const logBody = document.getElementById('logBody');
-  const snackBody = document.getElementById('snackBody');
-  logBody.innerHTML = "";
-  snackBody.innerHTML = "";
+function renderTracker() {
+  const container = document.getElementById("mealTables");
+  container.innerHTML = "";
+  const meals = ["breakfast", "lunch", "dinner", "snack"];
+  let totalCals = 0, totalProt = 0;
 
-  let totalCals = 0, totalPro = 0;
+  meals.forEach(meal => {
+    const mealEntries = foodLog.filter(f => f.meal === meal);
+    if (mealEntries.length) {
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `<tr><th colspan='6'>${meal.toUpperCase()}</th></tr><tr><th>Food</th><th>Calories</th><th>Protein</th><th>Qty</th><th>% Protein</th><th>X</th></tr>`;
+      table.appendChild(thead);
+      const tbody = document.createElement("tbody");
 
-  foodLog.forEach((item, index) => {
-    const cals = item.calories * item.quantity;
-    const pro = item.protein * item.quantity;
-    const pct = cals > 0 ? ((pro * 4 / cals) * 100).toFixed(1) + '%' : '0%';
+      mealEntries.forEach((f, i) => {
+        const cals = f.calories * f.qty;
+        const prot = f.protein * f.qty;
+        totalCals += cals;
+        totalProt += prot;
+        const perc = ((prot * 4) / cals * 100).toFixed(1);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${f.name}</td>
+          <td>${cals}</td>
+          <td>${prot}</td>
+          <td>${f.qty}</td>
+          <td>${perc}%</td>
+          <td><button onclick="removeLog(${i})">X</button></td>
+        `;
+        tbody.appendChild(row);
+      });
 
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${cals.toFixed(1)}</td>
-      <td>${pro.toFixed(1)}</td>
-      <td>${pct}</td>
-      <td>${item.quantity}</td>
-      <td><button onclick="removeEntry(${index})">X</button></td>
-    `;
-
-    if (item.isSnack) {
-      snackBody.appendChild(row);
-    } else {
-      totalCals += cals;
-      totalPro += pro;
-      logBody.appendChild(row);
+      table.appendChild(tbody);
+      container.appendChild(table);
     }
   });
 
-  document.getElementById('totalCalories').textContent = totalCals.toFixed(1);
-  document.getElementById('totalProtein').textContent = totalPro.toFixed(1);
-  document.getElementById('goalCalories').textContent = goals.calories;
-  document.getElementById('goalProtein').textContent = goals.protein;
-  document.getElementById('remainingCalories').textContent = (goals.calories - totalCals).toFixed(1);
-  document.getElementById('remainingProtein').textContent = (goals.protein - totalPro).toFixed(1);
-}
+  const goalCals = goals.calories || 0;
+  const goalProt = goals.protein || 0;
+  const remainingCals = goalCals - totalCals;
+  const remainingProt = goalProt - totalProt;
 
-function removeEntry(index) {
-  foodLog.splice(index, 1);
-  renderLog();
+  container.innerHTML += `
+    <table>
+      <tfoot>
+        <tr><td><strong>Goal</strong></td><td>${goalCals}</td><td>${goalProt}</td><td colspan="3"></td></tr>
+        <tr><td><strong>Total</strong></td><td>${totalCals}</td><td>${totalProt}</td><td colspan="3"></td></tr>
+        <tr><td><strong>Remaining</strong></td><td>${remainingCals}</td><td>${remainingProt}</td><td colspan="3"></td></tr>
+      </tfoot>
+    </table>
+  `;
 }
 
 function resetLog() {
   foodLog = [];
-  renderLog();
+  localStorage.setItem("foodLog", JSON.stringify(foodLog));
+  renderTracker();
+}
+
+function removeLog(index) {
+  foodLog.splice(index, 1);
+  localStorage.setItem("foodLog", JSON.stringify(foodLog));
+  renderTracker();
+}
+
+function renderFoodDatabase() {
+  const tbody = document.getElementById("foodDatabaseBody");
+  tbody.innerHTML = "";
+  foodDB.forEach((f, i) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${f.name}</td>
+      <td>${f.calories}</td>
+      <td>${f.protein}</td>
+      <td>${f.barcode || "-"}</td>
+      <td><button onclick="deleteFood(${i})">X</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function deleteFood(index) {
+  foodDB.splice(index, 1);
+  localStorage.setItem("foodDB", JSON.stringify(foodDB));
+  renderFoodDatabase();
+  updateFoodSelect();
 }
 
 function saveGoals() {
-  const cal = parseFloat(document.getElementById('goalCaloriesInput').value);
-  const pro = parseFloat(document.getElementById('goalProteinInput').value);
-  if (!isNaN(cal)) goals.calories = cal;
-  if (!isNaN(pro)) goals.protein = pro;
-  renderLog();
+  const cal = parseFloat(document.getElementById("goalCaloriesInput").value);
+  const prot = parseFloat(document.getElementById("goalProteinInput").value);
+  if (!isNaN(cal) && !isNaN(prot)) {
+    goals = { calories: cal, protein: prot };
+    localStorage.setItem("goals", JSON.stringify(goals));
+    alert("Goals saved!");
+    renderTracker();
+  }
 }
 
 function startScanner() {
-  const html5QrCode = new Html5Qrcode("reader");
-  Html5Qrcode.getCameras().then(cameras => {
-    if (cameras && cameras.length) {
-      html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
-        qrCodeMessage => {
-          alert(`Scanned: ${qrCodeMessage}`);
-          html5QrCode.stop();
-        }
-      );
-    }
-  }).catch(err => console.error(err));
+  const reader = new Html5Qrcode("reader");
+  Html5Qrcode.getCameras().then(devices => {
+    const backCam = devices.find(d => d.label.toLowerCase().includes("back")) || devices[0];
+    reader.start(
+      backCam.id,
+      { fps: 10, qrbox: 250 },
+      barcode => {
+        document.getElementById("barcode").value = barcode;
+        reader.stop();
+        document.getElementById("reader").innerHTML = "";
+        alert("Barcode scanned: " + barcode);
+      }
+    );
+  });
 }
+
+// Initial load
+updateFoodSelect();
+renderTracker();
