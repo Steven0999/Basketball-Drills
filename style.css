@@ -1,368 +1,57 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
   margin: 0;
-  padding: 0;
-}
-
-.container {
-  width: 80%;
-  margin: 20px auto;
-}
-
-h1 {
-  text-align: center;
-  color: #333;
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 30px;
-  color: #333;
+  padding: 20px;
+  background: black;
+  color: grey;
 }
 
 .tabs {
   display: flex;
-  justify-content: center;
+  gap: 10px;
   margin-bottom: 20px;
-  border-bottom: 2px solid #ddd;
 }
 
 .tab-btn {
-  padding: 15px 25px;
-  margin: 0 15px;
-  background-color: #007bff;
-  color: white;
+  padding: 10px 15px;
+  background: orange;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
-  font-size: 18px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.tab-btn:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
 }
 
 .tab-btn.active {
-  background-color: #28a745;
+  background: grey;
+  color: white;
 }
 
 .tab-content {
   display: none;
-  padding: 20px;
 }
 
 .tab-content.active {
   display: block;
 }
 
-.table-container {
-  overflow-x: auto;
-  margin-top: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
+}
+
+table, th, td {
+  border: 1px solid #999;
 }
 
 th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #f2f2f2;
-  color: #333;
-  font-weight: bold;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-button {
-  padding: 8px 12px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-button:hover {
-  background-color: #c82333;
-  transform: scale(1.05);
-}
-
-form input, form select {
   padding: 10px;
-  margin: 5px;
-  width: 100%;
-  max-width: 300px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-form input[type="number"], form select {
-  font-size: 16px;
-}
-
-form button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 5px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-form button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-#logBody tr td button {
-  background-color: #ff6f61;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-#logBody tr td button:hover {
-  background-color: #ff3d2d;
-  transform: scale(1.1);
-}
-
-#goalCalories, #goalProtein {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-#remainingCalories, #remainingProtein {
-  color: #e74c3c;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-#searchResults div {
-  padding: 10px;
-  margin: 5px;
-  background-color: #e9ecef;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-#searchResults div:hover {
-  background-color: #dee2e6;
-}
-
-#databaseResults div {
-  padding: 10px;
-  margin: 5px;
-  background-color: #e9ecef;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-#databaseResults div:hover {
-  background-color: #dee2e6;
-}
-
-.history-view {
-  display: none;
-}
-
-.history-view.active {
-  display: block;
-}
-
-#customWeight {
-  display: none;
-}
-
-#customWeightInput {
-  margin-top: 10px;
-}
-
-#logBody td button {
-  font-size: 14px;
-}
-
-h3 {
-  font-size: 24px;
-  color: #333;
-}
-
-#totalCalories, #totalProtein {
-  font-size: 20px;
-  color: #333;
-  font-weight: bold;
-}
-
-#remainingCalories, #remainingProtein {
-  font-size: 18px;
-  color: #e74c3c;
-}
-
-.history-table th, .history-table td {
-  padding: 12px;
-  text-align: left;
-}
-
-.history-table th {
-  background-color: #f9f9f9;
-  border-bottom: 2px solid #ddd;
-}
-
-.history-table td {
-  border-bottom: 1px solid #ddd;
-}
-
-.history-table td button {
-  background-color: #dc3545;
-  color: white;
-  border-radius: 5px;
-  padding: 6px 10px;
-  font-size: 14px;
-}
-
-.history-table td button:hover {
-  background-color: #c82333;
-}
-
-#dailyView, #weeklyView, #monthlyView {
-  margin-top: 20px;
-}
-
-#weeklyView table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#weeklyView th, #weeklyView td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-#weeklyView th {
-  background-color: #f2f2f2;
-}
-
-#weeklyView tr:hover {
-  background-color: #f1f1f1;
-}
-
-#remainingCalories, #remainingProtein {
-  font-size: 18px;
-}
-
-#weekStats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-#weekStats div {
-  font-size: 16px;
-}
-
-#weekStats div span {
-  font-weight: bold;
-}
-
-.weekday {
-  display: inline-block;
-  width: 14.2%;
   text-align: center;
-  padding: 10px;
-  font-size: 14px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
 }
 
-.weekday.active {
-  background-color: #007bff;
+.reset-btn {
+  margin-left: 10px;
+  background-color: red;
   color: white;
-}
-
-.weekday:hover {
-  background-color: #dee2e6;
-}
-
-#weekStats .remaining {
-  color: #e74c3c;
-}
-
-#goalCaloriesInput, #goalProteinInput {
-  font-size: 16px;
-  padding: 8px;
-}
-
-#goalCaloriesInput, #goalProteinInput {
-  max-width: 300px;
-}
-
-button[type="button"], button[type="submit"], button[type="reset"] {
-  background-color: #007bff;
-  color: white;
+  padding: 6px 12px;
   border: none;
   cursor: pointer;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-button[type="button"]:hover, button[type="submit"]:hover, button[type="reset"]:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-  .container {
-    width: 95%;
-  }
-
-  .tabs {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .tab-btn {
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  table {
-    font-size: 14px;
-  }
-
-  form input, form select, form button {
-    width: 100%;
-  }
-
-  .weekStats {
-    flex-direction: column;
-  }
-
-  .weekday {
-    margin-bottom: 10px;
-    width: 100%;
-  }
 }
