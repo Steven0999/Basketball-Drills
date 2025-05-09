@@ -1,115 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nutrition Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nutrition Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
 
-<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
+    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Create Food</button>
+    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Food Database</button>
+    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Set Goals</button>
+  </div>
+
+  <!-- Tracker Tab -->
+  <div id="trackerTab" class="tab-content active">
     <h1>Nutrition Tracker</h1>
-    
-    <!-- Tabs for switching content -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
-        <button class="tab-btn" onclick="switchTab(event, 'historyTab')">History</button>
-        <button class="tab-btn" onclick="switchTab(event, 'createTab')">Add Food</button>
-        <button class="tab-btn" onclick="switchTab(event, 'settingsTab')">Settings</button>
-    </div>
 
-    <!-- Tracker Tab Content -->
-    <div id="trackerTab" class="tab-content active">
-        <h2>Track Your Meals</h2>
-        <div>
-            <label for="searchInput">Search Food:</label>
-            <input type="text" id="searchInput" oninput="searchFood()" placeholder="Search food...">
-            <div id="searchResults"></div>
-        </div>
-        <div>
-            <label for="mealType">Meal Type:</label>
-            <select id="mealType">
-                <option value="Breakfast">Breakfast</option>
-                <option value="Lunch">Lunch</option>
-                <option value="Dinner">Dinner</option>
-                <option value="Snack">Snack</option>
-            </select>
-        </div>
-        <div>
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" value="1" min="1" step="0.1">
-        </div>
-        <div>
-            <label for="servingType">Serving Type:</label>
-            <select id="servingType" onchange="toggleCustomWeight()">
-                <option value="standard">Standard (100g)</option>
-                <option value="custom">Custom</option>
-            </select>
-            <div id="customWeight" style="display: none;">
-                <label for="customWeightInput">Enter Weight (grams):</label>
-                <input type="number" id="customWeight" min="1" step="1">
-            </div>
-        </div>
-        <button onclick="addEntry()">Add Entry</button>
-        <div>
-            <h3>Today's Totals</h3>
-            <p>Calories: <span id="totalCalories">0</span> kcal</p>
-            <p>Protein: <span id="totalProtein">0</span> g</p>
-            <p>Goal Calories: <span id="goalCalories">0</span> kcal</p>
-            <p>Goal Protein: <span id="goalProtein">0</span> g</p>
-            <p>Remaining Calories: <span id="remainingCalories">0</span> kcal</p>
-            <p>Remaining Protein: <span id="remainingProtein">0</span> g</p>
-        </div>
-    </div>
+    <select id="foodSelect">
+      <option value="">Select Item</option>
+    </select>
+    <input type="number" id="quantity" value="1" min="1" placeholder="Quantity" />
+    <input type="checkbox" id="isSnack" />
+    <label for="isSnack">Is this a snack?</label>
+    <button onclick="addEntry()">Add Entry</button>
+    <button class="reset-btn" onclick="resetLog()">Reset Log</button>
 
-    <!-- History Tab Content -->
-    <div id="historyTab" class="tab-content">
-        <h2>History</h2>
-        <button onclick="saveDay()">Save Day</button>
-        <div id="dailyView" class="history-view active"></div>
-        <div id="weeklyView" class="history-view"></div>
-        <div id="monthlyView" class="history-view"></div>
-        <div>
-            <button onclick="switchHistoryView('daily')">Daily</button>
-            <button onclick="switchHistoryView('weekly')">Weekly</button>
-            <button onclick="switchHistoryView('monthly')">Monthly</button>
-        </div>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Protein %</th>
+          <th>Qty</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+      <tfoot>
+        <tr>
+          <td><strong>Goal</strong></td>
+          <td id="goalCalories">0</td>
+          <td id="goalProtein">0</td>
+          <td colspan="3"></td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td id="totalCalories">0</td>
+          <td id="totalProtein">0</td>
+          <td colspan="3"></td>
+        </tr>
+        <tr>
+          <td><strong>Remaining</strong></td>
+          <td id="remainingCalories">0</td>
+          <td id="remainingProtein">0</td>
+          <td colspan="3"></td>
+        </tr>
+      </tfoot>
+    </table>
 
-    <!-- Add Food Tab Content -->
-    <div id="createTab" class="tab-content">
-        <h2>Add New Food</h2>
-        <div>
-            <label for="newFoodName">Food Name:</label>
-            <input type="text" id="newFoodName">
-        </div>
-        <div>
-            <label for="newCalories">Calories per 100g:</label>
-            <input type="number" id="newCalories">
-        </div>
-        <div>
-            <label for="newProtein">Protein per 100g:</label>
-            <input type="number" id="newProtein">
-        </div>
-        <button onclick="addFoodAndReturn()">Add Food</button>
-    </div>
+    <h2>Snacks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Protein %</th>
+          <th>Qty</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="snackBody"></tbody>
+    </table>
+  </div>
 
-    <!-- Settings Tab Content -->
-    <div id="settingsTab" class="tab-content">
-        <h2>Set Your Goals</h2>
-        <div>
-            <label for="goalCaloriesInput">Calories Goal:</label>
-            <input type="number" id="goalCaloriesInput">
-        </div>
-        <div>
-            <label for="goalProteinInput">Protein Goal:</label>
-            <input type="number" id="goalProteinInput">
-        </div>
-        <button onclick="saveGoals()">Save Goals</button>
-    </div>
-</div>
+  <!-- Create Food Tab -->
+  <div id="createTab" class="tab-content">
+    <h1>Create New Food</h1>
+    <input type="text" id="newFoodName" placeholder="Food name" />
+    <input type="number" id="newCalories" placeholder="Calories" />
+    <input type="number" id="newProtein" placeholder="Protein (g)" />
+    <button onclick="addFoodAndReturn()">Save Food</button>
+    <button onclick="startScanner()">Scan Barcode</button>
+    <div id="reader" style="width: 100%; margin-top: 20px;"></div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- Food Database Tab -->
+  <div id="databaseTab" class="tab-content">
+    <h1>Food Database</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Protein</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="foodDatabaseBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Set Goals Tab -->
+  <div id="goalsTab" class="tab-content">
+    <h1>Set Your Nutrition Goals</h1>
+    <label>Calorie Goal:</label>
+    <input type="number" id="goalCaloriesInput" placeholder="e.g. 2000" />
+    <label>Protein Goal:</label>
+    <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
+    <button onclick="saveGoals()">Confirm Goals</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
