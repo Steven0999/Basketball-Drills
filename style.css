@@ -56,8 +56,28 @@ th, td {
   cursor: pointer;
 }
 
-input, select {
-  padding: 8px;
-  margin-right: 5px;
-  margin-top: 10px;
+#foodResults div {
+  background: #333;
+  padding: 5px;
+  margin: 2px 0;
+  cursor: pointer;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
 }
