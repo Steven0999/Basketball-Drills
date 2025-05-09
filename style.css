@@ -55,3 +55,9 @@ th, td {
   border: none;
   cursor: pointer;
 }
+
+input, select {
+  padding: 8px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
