@@ -8,11 +8,9 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background: black;
+      background: #f2f2f2;
       margin: 0;
       padding: 0;
-      color: orange;
-
     }
     .page {
       display: none;
@@ -32,7 +30,7 @@
       cursor: pointer;
     }
     button:hover {
-      background:grey;
+      background: #0056b3;
     }
     table {
       width: 80%;
@@ -45,14 +43,14 @@
       text-align: center;
     }
     th {
-      background: orange;
+      background: #007bff;
       color: white;
     }
     .back-btn {
-      background: grey;
+      background: #28a745;
     }
     .back-btn:hover {
-      background: grey;
+      background: #1c7c31;
     }
   </style>
 </head>
@@ -94,26 +92,114 @@
 
   <script>
     const exercises = {
-      dribbling: [
-        ["Dribble Right & Left Handed", "3", "30 sec"],
-        ["Crossover Drill", "3", "20 reps"],
-        ["Through the Leg Dribbling", "3", "40 sec"]
-      ],
-      shooting: [
-        ["Line Drill shooting", "5", "10 shots"],
-        ["5 and rotate", "5", "10"],
-        ["Catch & Shoot", "4", "8 shots"]
-      ],
-      strength: [
-        ["Push-ups", "3", "15"],
-        ["Reverse Lunges", "3", "20"],
-        ["Plank", "3", "60 sec"]
-      ],
-      conditioning: [
-        ["Sprints", "5", "30m"],
-        ["Jump Rope", "4", "1 min"],
-        ["Burpees", "3", "12"]
-      ]
+      dribbling: {
+        1: [
+          ["Cone Dribble", "3", "30 sec"],
+          ["Crossover Drill", "3", "20 reps"],
+          ["Figure-8 Dribble", "3", "40 sec"]
+        ],
+        2: [
+          ["Behind-the-Back Dribble", "3", "30 sec"],
+          ["Zig-Zag Dribble", "3", "20 reps"],
+          ["Speed Dribble", "4", "25 m"]
+        ],
+        3: [
+          ["Double Ball Dribble", "3", "30 sec"],
+          ["Hesitation Moves", "3", "20 reps"],
+          ["Stationary Pound Dribble", "3", "40 sec"]
+        ],
+        4: [
+          ["Low Dribble", "3", "30 sec"],
+          ["In-and-Out Move", "3", "20 reps"],
+          ["Crossover + Spin Combo", "3", "15 reps"]
+        ],
+        5: [
+          ["Two-Cone Retreat Dribble", "3", "30 sec"],
+          ["Figure-8 Speed", "3", "40 sec"],
+          ["One-Handed Pound", "4", "30 sec"]
+        ]
+      },
+      shooting: {
+        1: [
+          ["Spot Shooting", "5", "10 shots"],
+          ["Free Throws", "5", "10"],
+          ["Catch & Shoot", "4", "8 shots"]
+        ],
+        2: [
+          ["Around the World", "5", "10 shots"],
+          ["Pull-Up Jumpers", "3", "12"],
+          ["Three-Point Shots", "4", "6 shots"]
+        ],
+        3: [
+          ["Corner Shooting", "5", "8 shots"],
+          ["Mid-Range Spots", "4", "10 shots"],
+          ["Rapid Fire Shooting", "3", "15 shots"]
+        ],
+        4: [
+          ["Bank Shots", "3", "10"],
+          ["Step-Back Shooting", "4", "6"],
+          ["Free Throws", "5", "12"]
+        ],
+        5: [
+          ["Transition Shooting", "4", "8"],
+          ["Pick-and-Pop Shots", "3", "10"],
+          ["Game-Scenario Shots", "4", "6"]
+        ]
+      },
+      strength: {
+        1: [
+          ["Push-ups", "3", "15"],
+          ["Bodyweight Squats", "3", "20"],
+          ["Plank", "3", "60 sec"]
+        ],
+        2: [
+          ["Lunges", "3", "12 each leg"],
+          ["Pull-ups", "3", "8"],
+          ["Side Plank", "3", "30 sec each"]
+        ],
+        3: [
+          ["Jump Squats", "3", "12"],
+          ["Dips", "3", "10"],
+          ["Mountain Climbers", "3", "40 sec"]
+        ],
+        4: [
+          ["Deadlifts (light)", "3", "12"],
+          ["Glute Bridges", "3", "15"],
+          ["Hollow Holds", "3", "30 sec"]
+        ],
+        5: [
+          ["Medicine Ball Slams", "3", "10"],
+          ["Push-up to Shoulder Tap", "3", "12"],
+          ["Russian Twists", "3", "20 reps"]
+        ]
+      },
+      conditioning: {
+        1: [
+          ["Sprints", "5", "30m"],
+          ["Jump Rope", "4", "1 min"],
+          ["Burpees", "3", "12"]
+        ],
+        2: [
+          ["Shuttle Runs", "6", "20m"],
+          ["High Knees", "4", "30 sec"],
+          ["Jumping Jacks", "3", "40 sec"]
+        ],
+        3: [
+          ["Suicides", "5", "Full Court"],
+          ["Box Jumps", "4", "12"],
+          ["Plank Jacks", "3", "30 sec"]
+        ],
+        4: [
+          ["Agility Ladder", "5", "30 sec"],
+          ["Bear Crawls", "4", "15m"],
+          ["Squat Jumps", "3", "10"]
+        ],
+        5: [
+          ["Hill Sprints", "5", "20m"],
+          ["Burpee Broad Jumps", "4", "8"],
+          ["Sprint Intervals", "6", "15 sec"]
+        ]
+      }
     };
 
     let currentCategory = "";
@@ -142,7 +228,8 @@
       const tableBody = document.getElementById("exerciseTable");
       tableBody.innerHTML = "";
 
-      (exercises[currentCategory] || []).forEach(ex => {
+      const selectedDrill = exercises[currentCategory][drillNumber];
+      selectedDrill.forEach(ex => {
         let row = document.createElement("tr");
         row.innerHTML = `<td>${ex[0]}</td><td>${ex[1]}</td><td>${ex[2]}</td>`;
         tableBody.appendChild(row);
