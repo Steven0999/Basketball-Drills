@@ -2,142 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nutrition Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Training Program App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    .page {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    button {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+    .back-btn {
+      background: #28a745;
+    }
+    .back-btn:hover {
+      background: #1c7c31;
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'trackerTab')">Tracker</button>
-    <button class="tab-btn" onclick="switchTab(event, 'createTab')">Create Food</button>
-    <button class="tab-btn" onclick="switchTab(event, 'databaseTab')">Food Database</button>
-    <button class="tab-btn" onclick="switchTab(event, 'goalsTab')">Set Goals</button>
-    <button class="tab-btn" onclick="switchTab(event, 'reportsTab')">Reports</button>
+
+  <!-- Home Page -->
+  <div id="home" class="page active">
+    <h1>Training Program</h1>
+    <button onclick="showDrills('dribbling')">Dribbling</button>
+    <button onclick="showDrills('shooting')">Shooting</button>
+    <button onclick="showDrills('strength')">Strength Training</button>
+    <button onclick="showDrills('conditioning')">Conditioning</button>
   </div>
 
-  <!-- Tracker Tab -->
-  <div id="trackerTab" class="tab-content active">
-    <h1>Nutrition Tracker</h1>
-    <input type="text" id="foodSearch" placeholder="Search food..." oninput="filterFoods()" />
-    <div id="foodResults"></div>
-    <input type="number" id="quantity" value="1" min="1" placeholder="Quantity" />
-    <select id="mealType">
-      <option value="Breakfast">Breakfast</option>
-      <option value="Lunch">Lunch</option>
-      <option value="Dinner">Dinner</option>
-      <option value="Snack">Snack</option>
-    </select>
-    <button onclick="addSelectedFood()">Add Entry</button>
-    <button class="reset-btn" onclick="resetLog()">Reset Log</button>
+  <!-- Drills Page -->
+  <div id="drills" class="page">
+    <h2 id="drillTitle">Choose a Drill</h2>
+    <div id="drillButtons"></div>
+    <button class="back-btn" onclick="goHome()">Back</button>
+  </div>
 
+  <!-- Workout Page -->
+  <div id="workout" class="page">
+    <h2 id="workoutTitle">Workout</h2>
+    <p><strong>Warm-up:</strong> 5 minutes of light jogging and dynamic stretches.</p>
     <table>
       <thead>
         <tr>
-          <th>Food</th>
-          <th>Calories</th>
-          <th>Protein</th>
-          <th>Qty</th>
-          <th>Meal</th>
-          <th>% Protein</th>
-          <th>Remove</th>
+          <th>Exercise</th>
+          <th>Sets</th>
+          <th>Reps/Time</th>
         </tr>
       </thead>
-      <tbody id="logBody"></tbody>
-      <tfoot>
-        <tr>
-          <td><strong>Goal</strong></td>
-          <td id="goalCalories">0</td>
-          <td id="goalProtein">0</td>
-          <td colspan="4"></td>
-        </tr>
-        <tr>
-          <td><strong>Total</strong></td>
-          <td id="totalCalories">0</td>
-          <td id="totalProtein">0</td>
-          <td colspan="4"></td>
-        </tr>
-        <tr>
-          <td><strong>Remaining</strong></td>
-          <td id="remainingCalories">0</td>
-          <td id="remainingProtein">0</td>
-          <td colspan="4"></td>
-        </tr>
-      </tfoot>
+      <tbody id="exerciseTable"></tbody>
     </table>
+    <p><strong>Cool-down:</strong> 5 minutes of stretching.</p>
+    <button class="back-btn" onclick="backToDrills()">Back to Drills</button>
   </div>
 
-  <!-- Create Food Tab -->
-  <div id="createTab" class="tab-content">
-    <h1>Create New Food</h1>
-    <form>
-      <input type="text" id="newFoodName" placeholder="Food name" required />
-      <input type="number" id="newCalories" placeholder="Calories" required />
-      <input type="number" id="newProtein" placeholder="Protein (g)" required />
-      <select id="servingType">
-        <option value="portion">Per Portion</option>
-        <option value="100g">Per 100g</option>
-        <option value="custom">Custom (grams)</option>
-      </select>
-      <input type="number" id="customAmount" placeholder="Enter gram amount (optional)" />
-      <button type="button" onclick="saveNewFood()">Save Food</button>
-      <button type="button" onclick="startScanner()">Scan Barcode</button>
-    </form>
-    <div id="reader" style="width: 100%; margin-top: 20px;"></div>
-  </div>
+  <script>
+    const exercises = {
+      dribbling: [
+        ["Cone Dribble", "3", "30 sec"],
+        ["Crossover Drill", "3", "20 reps"],
+        ["Figure-8 Dribble", "3", "40 sec"]
+      ],
+      shooting: [
+        ["Spot Shooting", "5", "10 shots"],
+        ["Free Throws", "5", "10"],
+        ["Catch & Shoot", "4", "8 shots"]
+      ],
+      strength: [
+        ["Push-ups", "3", "15"],
+        ["Squats", "3", "20"],
+        ["Plank", "3", "60 sec"]
+      ],
+      conditioning: [
+        ["Sprints", "5", "30m"],
+        ["Jump Rope", "4", "1 min"],
+        ["Burpees", "3", "12"]
+      ]
+    };
 
-  <!-- Food Database Tab -->
-  <div id="databaseTab" class="tab-content">
-    <h1>Food Database</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Food</th>
-          <th>Calories</th>
-          <th>Protein</th>
-          <th>Serving Type</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="foodDatabaseBody"></tbody>
-    </table>
-  </div>
+    let currentCategory = "";
 
-  <!-- Set Goals Tab -->
-  <div id="goalsTab" class="tab-content">
-    <h1>Set Your Nutrition Goals</h1>
-    <label>Calorie Goal:</label>
-    <input type="number" id="goalCaloriesInput" placeholder="e.g. 2000" />
-    <label>Protein Goal:</label>
-    <input type="number" id="goalProteinInput" placeholder="e.g. 150" />
-    <button onclick="saveGoals()">Confirm Goals</button>
-  </div>
+    function showDrills(category) {
+      currentCategory = category;
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("drills").classList.add("active");
+      document.getElementById("drillTitle").textContent = category.charAt(0).toUpperCase() + category.slice(1) + " Drills";
 
-  <!-- Reports Tab -->
-  <div id="reportsTab" class="tab-content">
-    <h1>Nutrition Summary Reports</h1>
-    <div>
-      <p>Total Entries: <span id="entryCount">0</span></p>
-      <p>Most Eaten Meal Type: <span id="mostEatenMeal">N/A</span></p>
-      <p>Average Calories per Meal: <span id="avgCalories">0</span></p>
-    </div>
-  </div>
+      const drillButtons = document.getElementById("drillButtons");
+      drillButtons.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = `Drill ${i}`;
+        btn.onclick = () => showWorkout(i);
+        drillButtons.appendChild(btn);
+      }
+    }
 
-  <!-- Popup for Serving Type -->
-  <div id="servingPopup" class="popup">
-    <div class="popup-content">
-      <p>Choose how nutrition is recorded:</p>
-      <button onclick="submitFood('portion')">Per Portion</button>
-      <button onclick="submitFood('100g')">Per 100g</button>
-      <input type="number" id="popupCustomAmount" placeholder="Enter custom gram amount" />
-      <button onclick="submitFood('custom')">Use Custom</button>
-    </div>
-  </div>
+    function showWorkout(drillNumber) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("workout").classList.add("active");
+      document.getElementById("workoutTitle").textContent = `${currentCategory} - Drill ${drillNumber}`;
 
-  <footer>
-    <p>&copy; 2025 Nutrition Tracker App</p>
-  </footer>
+      const tableBody = document.getElementById("exerciseTable");
+      tableBody.innerHTML = "";
 
-  <script src="script.js"></script>
+      (exercises[currentCategory] || []).forEach(ex => {
+        let row = document.createElement("tr");
+        row.innerHTML = `<td>${ex[0]}</td><td>${ex[1]}</td><td>${ex[2]}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function goHome() {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("home").classList.add("active");
+    }
+
+    function backToDrills() {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("drills").classList.add("active");
+    }
+  </script>
+
 </body>
 </html>
