@@ -67,6 +67,7 @@
     <button onclick="showDrills('shooting')">Shooting</button>
     <button onclick="showDrills('strength')">Strength Training</button>
     <button onclick="showDrills('conditioning')">Conditioning</button>
+    <button onclick="showDrills('postmoves')">Post Moves</button>
   </div>
 
   <!-- Drills Page -->
@@ -204,7 +205,34 @@
           ["Broad Jumps", "4", "8"],
           ["Sprint Intervals", "6", "15 sec"]
         ]
-      }
+      },
+      postmoves: {
+        "Back to basket": [
+          ["Drop Step Baseline Lay up", "4", "10"],
+          ["Drop Step Middle Hook Shot", "4", "10"],
+          ["Drop Step Middle into Up and Under", "4", "10"]
+        ],
+        "Face up": [
+          ["Face up Jump Shot", "4", "10"],
+          ["Face up Drives ", "4", "30 sec"],
+          ["Lateral Jumps", "3", "40 sec"]
+        ],
+        3: [
+          ["Xplosive Lunges", "5", "Full Court"],
+          ["Box Jumps/Xplosive Jumps", "4", "12"],
+          ["Plank Jacks", "3", "30 sec"]
+        ],
+        4: [
+          ["Agility Ladder", "5", "30 sec"],
+          ["Bear Crawls", "4", "15m"],
+          ["Squat Jumps", "3", "10"]
+        ],
+        5: [
+          ["Hill Sprints", "5", "20m"],
+          ["Broad Jumps", "4", "8"],
+          ["Sprint Intervals", "6", "15 sec"],
+          ],
+      },
     };
 
     let currentCategory = "";
