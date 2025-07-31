@@ -128,146 +128,392 @@
         5: "Advanced Post Combos"
       }
     };
-    
-    const exercises = {
+const exercises = {
       dribbling: {
-        1: [
-          ["Single Arm Dribbling", "3", "60 sec"],
-          ["Crossover Drill", "3", "60 secs"],
-          ["Through the Leg Dribble", "3", "60 sec"]
-        ],
-        2: [
-          ["Behind-the-Back Dribble", "3", "60 secs"],
-          ["Zig-Zag Crossover Dribble", "3", "60 secs"],
-          ["Speed Dribble", "4", "20 meters"]
-        ],
-        3: [
-          ["Double Ball Dribble", "3", "60 sec"],
-          ["Hesitation Moves", "3", "60 secs"],
-          ["Stationary Pound Dribble", "3", "60 sec"]
-        ],
-        4: [
-          ["Low Dribble", "3", "60 sec"],
-          ["High Dribble", "3", "60 secs"],
-          ["In-and-Out Move", "3", "20 reps"],
-          ["Crossover + Spin Combo", "3", "15 reps"]
-        ],
-        5: [
-          ["Two-Cone Retreat Dribble", "3", "30 sec"],
-          ["Wide Crossovers", "3", "40 sec"],
-          ["One-Handed Pound", "4", "30 sec"]
-        ]
+        1: {
+          warmup: [
+            ["Jogging", "1", "5 mins"],
+            ["Arm Circles", "2", "10 reps"]
+          ],
+          main: [
+            ["Single Arm Dribbling", "3", "60 sec"],
+            ["Crossover Drill", "3", "60 secs"],
+            ["Through the Leg Dribble", "3", "60 sec"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Hamstring Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        2: {
+          warmup: [
+            ["High Knees", "2", "30 sec"],
+            ["Butt Kicks", "2", "30 sec"]
+          ],
+          main: [
+            ["Behind-the-Back Dribble", "3", "60 secs"],
+            ["Zig-Zag Crossover Dribble", "3", "60 secs"],
+            ["Speed Dribble", "4", "20 meters"]
+          ],
+          cooldown: [
+            ["Calf Stretch", "2", "30 sec each leg"],
+            ["Chest Stretch", "2", "30 sec"]
+          ]
+        },
+        3: {
+          warmup: [
+            ["Jumping Jacks", "2", "30 reps"],
+            ["Torso Twists", "2", "15 reps each side"]
+          ],
+          main: [
+            ["Double Ball Dribble", "3", "60 sec"],
+            ["Hesitation Moves", "3", "60 secs"],
+            ["Stationary Pound Dribble", "3", "60 sec"]
+          ],
+          cooldown: [
+            ["Tricep Stretch", "2", "30 sec each arm"],
+            ["Glute Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        4: {
+          warmup: [
+            ["Knee Pulls", "2", "10 reps each leg"],
+            ["Leg Swings", "2", "10 reps each leg"]
+          ],
+          main: [
+            ["Low Dribble", "3", "60 sec"],
+            ["High Dribble", "3", "60 secs"],
+            ["In-and-Out Move", "3", "20 reps"],
+            ["Crossover + Spin Combo", "3", "15 reps"]
+          ],
+          cooldown: [
+            ["IT Band Stretch", "2", "30 sec each side"],
+            ["Lower Back Stretch", "2", "30 sec"]
+          ]
+        },
+        5: {
+          warmup: [
+            ["Side Shuffles", "2", "20m"],
+            ["Carioca", "2", "20m"]
+          ],
+          main: [
+            ["Two-Cone Retreat Dribble", "3", "30 sec"],
+            ["Wide Crossovers", "3", "40 sec"],
+            ["One-Handed Pound", "4", "30 sec"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Groin Stretch", "2", "30 sec"]
+          ]
+        }
       },
       shooting: {
-        1: [
-          ["Spot Shooting", "5", "10 shots"],
-          ["Free Throws", "5", "10"],
-          ["Catch & Shoot", "4", "8 shots"]
-        ],
-        2: [
-          ["Around the World", "5", "10 shots"],
-          ["Pull-Up Jumpers", "3", "12"],
-          ["Three-Point Shots", "4", "6 shots"]
-        ],
-        3: [
-          ["Corner Shooting", "5", "8 shots"],
-          ["Mid-Range Spots", "4", "10 shots"],
-          ["Rapid Fire Shooting", "3", "15 shots"]
-        ],
-        4: [
-          ["Bank Shots", "3", "10"],
-          ["Step-Back Shooting", "4", "6"],
-          ["Free Throws", "5", "12"]
-        ],
-        5: [
-          ["Transition Shooting", "4", "8"],
-          ["Pick-and-Pop Shots", "3", "10"],
-          ["Game-Scenario Shots", "4", "6"]
-        ]
+        1: {
+          warmup: [
+            ["Layups (right/left)", "2", "10 reps each"],
+            ["Form Shooting close to basket", "2", "15 reps"]
+          ],
+          main: [
+            ["Spot Shooting", "5", "10 shots"],
+            ["Free Throws", "5", "10"],
+            ["Catch & Shoot", "4", "8 shots"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Hamstring Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        2: {
+          warmup: [
+            ["Mid-range jumpers", "2", "10 reps"],
+            ["Form shooting from 5 ft", "2", "10 reps"]
+          ],
+          main: [
+            ["Around the World", "5", "10 shots"],
+            ["Pull-Up Jumpers", "3", "12"],
+            ["Three-Point Shots", "4", "6 shots"]
+          ],
+          cooldown: [
+            ["Calf Stretch", "2", "30 sec each leg"],
+            ["Chest Stretch", "2", "30 sec"]
+          ]
+        },
+        3: {
+          warmup: [
+            ["Form Shooting close to basket", "2", "10 reps"],
+            ["Mikan Drill", "2", "30 sec"]
+          ],
+          main: [
+            ["Corner Shooting", "5", "8 shots"],
+            ["Mid-Range Spots", "4", "10 shots"],
+            ["Rapid Fire Shooting", "3", "15 shots"]
+          ],
+          cooldown: [
+            ["Tricep Stretch", "2", "30 sec each arm"],
+            ["Glute Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        4: {
+          warmup: [
+            ["Spot shooting", "3", "10 reps"],
+            ["Layups", "2", "10 reps"]
+          ],
+          main: [
+            ["Bank Shots", "3", "10"],
+            ["Step-Back Shooting", "4", "6"],
+            ["Free Throws", "5", "12"]
+          ],
+          cooldown: [
+            ["IT Band Stretch", "2", "30 sec each side"],
+            ["Lower Back Stretch", "2", "30 sec"]
+          ]
+        },
+        5: {
+          warmup: [
+            ["Free Throws", "3", "10"],
+            ["Layups", "3", "8"]
+          ],
+          main: [
+            ["Transition Shooting", "4", "8"],
+            ["Pick-and-Pop Shots", "3", "10"],
+            ["Game-Scenario Shots", "4", "6"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Groin Stretch", "2", "30 sec"]
+          ]
+        }
       },
       strength: {
-        1: [
-          ["Push-ups", "3", "15"],
-          ["Walk outs", "3", "20"],
-          ["Plank", "3", "60 sec"]
-        ],
-        2: [
-          ["Reverse Lunges", "3", "12 each leg"],
-          ["Squats", "3", "8"],
-          ["Side Plank", "3", "30 sec each"]
-        ],
-        3: [
-          ["Jump Squats", "3", "12"],
-          ["Explosive Lunges", "3", "10"],
-          ["Mountain Climbers", "3", "40 sec"]
-        ],
-        4: [
-          ["Walking Lunges", "3", "12"],
-          ["Glute Bridges", "3", "15"],
-          ["Hollow Holds", "3", "30 sec"]
-        ],
-        5: [
-          ["Medicine Ball Slams", "3", "10"],
-          ["Push-up to Shoulder Tap", "3", "12"],
-          ["Russian Twists", "3", "20 reps"]
-        ]
+        1: {
+          warmup: [
+            ["Jumping Jacks", "2", "30 sec"],
+            ["Arm Circles", "2", "10 reps"]
+          ],
+          main: [
+            ["Push-ups", "3", "15"],
+            ["Walk outs", "3", "20"],
+            ["Plank", "3", "60 sec"]
+          ],
+          cooldown: [
+            ["Chest Stretch", "2", "30 sec"],
+            ["Child's Pose", "2", "30 sec"]
+          ]
+        },
+        2: {
+          warmup: [
+            ["Leg Swings", "2", "10 reps each leg"],
+            ["Bodyweight Squats", "2", "10 reps"]
+          ],
+          main: [
+            ["Reverse Lunges", "3", "12 each leg"],
+            ["Squats", "3", "8"],
+            ["Side Plank", "3", "30 sec each"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Hamstring Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        3: {
+          warmup: [
+            ["High Knees", "2", "30 sec"],
+            ["Butt Kicks", "2", "30 sec"]
+          ],
+          main: [
+            ["Jump Squats", "3", "12"],
+            ["Explosive Lunges", "3", "10"],
+            ["Mountain Climbers", "3", "40 sec"]
+          ],
+          cooldown: [
+            ["Calf Stretch", "2", "30 sec each leg"],
+            ["Hip Flexor Stretch", "2", "30 sec each side"]
+          ]
+        },
+        4: {
+          warmup: [
+            ["Torso Twists", "2", "15 reps each side"],
+            ["Cat-Cow Stretch", "2", "10 reps"]
+          ],
+          main: [
+            ["Walking Lunges", "3", "12"],
+            ["Glute Bridges", "3", "15"],
+            ["Hollow Holds", "3", "30 sec"]
+          ],
+          cooldown: [
+            ["Cobra Stretch", "2", "30 sec"],
+            ["Knee-to-Chest Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        5: {
+          warmup: [
+            ["Jumping Jacks", "2", "30 sec"],
+            ["Dynamic Lunges", "2", "10 reps each leg"]
+          ],
+          main: [
+            ["Medicine Ball Slams", "3", "10"],
+            ["Push-up to Shoulder Tap", "3", "12"],
+            ["Russian Twists", "3", "20 reps"]
+          ],
+          cooldown: [
+            ["Full Body Stretch", "1", "2 min"]
+          ]
+        }
       },
       conditioning: {
-        1: [
-          ["Sprints", "5", "30m"],
-          ["Jump Rope", "4", "1 min"],
-          ["Broad Jumps", "3", "5 jumps"]
-        ],
-        2: [
-          ["Shuttle Runs", "6", "20m"],
-          ["Bear Crawls", "4", "30 sec"],
-          ["Lateral Jumps", "3", "40 sec"]
-        ],
-        3: [
-          ["Xplosive Lunges", "5", "Full Court"],
-          ["Box Jumps/Xplosive Jumps", "4", "12"],
-          ["Plank Jacks", "3", "30 sec"],
-        ],
-        4: [
-          ["Agility Ladder", "5", "30 sec"],
-          ["Bear Crawls", "4", "15m"],
-          ["Squat Jumps", "3", "10"]
-        ],
-        5: [
-          ["Hill Sprints", "5", "20m"],
-          ["Broad Jumps", "4", "8"],
-          ["Sprint Intervals", "6", "15 sec"]
-        ]
+        1: {
+          warmup: [
+            ["Jogging", "1", "5 min"],
+            ["High Knees", "2", "30 sec"]
+          ],
+          main: [
+            ["Sprints", "5", "30m"],
+            ["Jump Rope", "4", "1 min"],
+            ["Broad Jumps", "3", "5 jumps"]
+          ],
+          cooldown: [
+            ["Walking", "1", "3 min"],
+            ["Quad Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        2: {
+          warmup: [
+            ["Side Shuffles", "2", "20m"],
+            ["Carioca", "2", "20m"]
+          ],
+          main: [
+            ["Shuttle Runs", "6", "20m"],
+            ["Bear Crawls", "4", "30 sec"],
+            ["Lateral Jumps", "3", "40 sec"]
+          ],
+          cooldown: [
+            ["Hamstring Stretch", "2", "30 sec each leg"],
+            ["Glute Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        3: {
+          warmup: [
+            ["Dynamic Lunges", "2", "10 reps each leg"],
+            ["High Knees", "2", "30 sec"]
+          ],
+          main: [
+            ["Explosive Lunges", "5", "Full Court"],
+            ["Box Jumps/Explosive Jumps", "4", "12"],
+            ["Plank Jacks", "3", "30 sec"],
+          ],
+          cooldown: [
+            ["Calf Stretch", "2", "30 sec each leg"],
+            ["IT Band Stretch", "2", "30 sec each side"]
+          ]
+        },
+        4: {
+          warmup: [
+            ["Jogging", "1", "3 min"],
+            ["High Knees", "2", "20m"]
+          ],
+          main: [
+            ["Agility Ladder", "5", "30 sec"],
+            ["Bear Crawls", "4", "15m"],
+            ["Squat Jumps", "3", "10"]
+          ],
+          cooldown: [
+            ["Lower Back Stretch", "2", "30 sec"],
+            ["Hip Flexor Stretch", "2", "30 sec each side"]
+          ]
+        },
+        5: {
+          warmup: [
+            ["Jogging", "1", "5 min"],
+            ["High Knees & Butt Kicks", "1", "1 min"]
+          ],
+          main: [
+            ["Hill Sprints", "5", "20m"],
+            ["Broad Jumps", "4", "8"],
+            ["Sprint Intervals", "6", "15 sec"]
+          ],
+          cooldown: [
+            ["Walking", "1", "3 min"],
+            ["Full Body Stretch", "1", "2 min"]
+          ]
+        }
       },
       postmoves: {
-        1: [
-          ["Low Post"],
-          ["Drop Step Baseline Lay up", "4", "10"],
-          ["Drop Step Middle Hook Shot", "4", "10"],
-          ["Drop Step Middle into Up and Under", "4", "10"]
-        ],
-        2: [
-          ["High Post"],
-          ["Low Post Jump Shot", "4", "10"],
-          ["Low Post Drives Left and Right ", "4", "20"],
-          ["High Post Jump Shot", "4", "10"],
-          ["High Post Drive Left and Right", "4", "10"]
-        ],
-        3: [
-          ["Xplosive Lunges", "5", "Full Court"],
-          ["Box Jumps/Xplosive Jumps", "4", "12"],
-          ["Plank Jacks", "3", "30 sec"]
-        ],
-        4: [
-          ["Agility Ladder", "5", "30 sec"],
-          ["Bear Crawls", "4", "15m"],
-          ["Squat Jumps", "3", "10"]
-        ],
-        5: [
-          ["Hill Sprints", "5", "20m"],
-          ["Broad Jumps", "4", "8"],
-          ["Sprint Intervals", "6", "15 sec"],
+        1: {
+          warmup: [
+            ["Mikan Drill", "2", "30 sec"],
+            ["Drop Step Footwork", "2", "15 reps"]
           ],
+          main: [
+            ["Drop Step Baseline Lay up", "4", "10"],
+            ["Drop Step Middle Hook Shot", "4", "10"],
+            ["Drop Step Middle into Up and Under", "4", "10"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Hamstring Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        2: {
+          warmup: [
+            ["Low post footwork", "2", "10 reps"],
+            ["High post footwork", "2", "10 reps"]
+          ],
+          main: [
+            ["Low Post Jump Shot", "4", "10"],
+            ["Low Post Drives Left and Right", "4", "20"],
+            ["High Post Jump Shot", "4", "10"],
+            ["High Post Drive Left and Right", "4", "10"]
+          ],
+          cooldown: [
+            ["Calf Stretch", "2", "30 sec each leg"],
+            ["Glute Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        3: {
+          warmup: [
+            ["Pivot practice", "2", "10 reps each foot"],
+            ["Form shooting", "2", "10 reps"]
+          ],
+          main: [
+            ["Front Pivot to Jump Shot", "4", "10"],
+            ["Front Pivot to Drive", "4", "10"],
+            ["Back Pivot to Drive", "4", "10"]
+          ],
+          cooldown: [
+            ["Tricep Stretch", "2", "30 sec each arm"],
+            ["Lower Back Stretch", "2", "30 sec"]
+          ]
+        },
+        4: {
+          warmup: [
+            ["Mikan Drill", "2", "30 sec"],
+            ["Drop Step Footwork", "2", "20 reps"]
+          ],
+          main: [
+            ["Mikan Drill", "3", "30 sec"],
+            ["Drop Step Footwork", "3", "20"],
+            ["Hook Shot Footwork", "3", "20"]
+          ],
+          cooldown: [
+            ["IT Band Stretch", "2", "30 sec each side"],
+            ["Knee-to-Chest Stretch", "2", "30 sec each leg"]
+          ]
+        },
+        5: {
+          warmup: [
+            ["Jab step practice", "2", "10 reps"],
+            ["Up-and-under footwork", "2", "10 reps"]
+          ],
+          main: [
+            ["Jab Step to Fadeaway", "4", "8"],
+            ["Up-and-Under with Pump Fake", "4", "8"],
+            ["Post Spin Move to Layup", "4", "10"]
+          ],
+          cooldown: [
+            ["Quad Stretch", "2", "30 sec each leg"],
+            ["Groin Stretch", "2", "30 sec"]
+          ]
+        },
       },
     };
 
@@ -283,7 +529,6 @@
       drillButtons.innerHTML = "";
       for (let i = 1; i <= 5; i++) {
         const btn = document.createElement("button");
-        // Use the descriptive name from the drillNames object
         btn.textContent = drillNames[category][i] || `Drill ${i}`;
         btn.onclick = () => showWorkout(i);
         drillButtons.appendChild(btn);
@@ -294,7 +539,6 @@
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById("workout").classList.add("active");
       
-      // Get the descriptive drill name and set it as the table heading
       const drillName = drillNames[currentCategory][drillNumber];
       document.getElementById("workoutTitle").textContent = `${currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)} - ${drillName}`;
 
@@ -302,11 +546,25 @@
       tableBody.innerHTML = "";
 
       const selectedDrill = exercises[currentCategory][drillNumber];
-      selectedDrill.forEach(ex => {
-        let row = document.createElement("tr");
-        row.innerHTML = `<td>${ex[0]}</td><td>${ex[1]}</td><td>${ex[2]}</td>`;
-        tableBody.appendChild(row);
-      });
+
+      // Function to add a section to the table
+      const addSection = (title, exercises) => {
+        if (exercises && exercises.length > 0) {
+          let titleRow = document.createElement("tr");
+          titleRow.innerHTML = `<td colspan="3" class="section-title">${title}</td>`;
+          tableBody.appendChild(titleRow);
+          
+          exercises.forEach(ex => {
+            let row = document.createElement("tr");
+            row.innerHTML = `<td>${ex[0]}</td><td>${ex[1]}</td><td>${ex[2]}</td>`;
+            tableBody.appendChild(row);
+          });
+        }
+      };
+
+      addSection("Warm Up", selectedDrill.warmup);
+      addSection("Main Drills", selectedDrill.main);
+      addSection("Cool Down", selectedDrill.cooldown);
     }
 
     function goHome() {
