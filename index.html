@@ -60,7 +60,6 @@
 </head>
 <body>
 
-  <!-- Home Page -->
   <div id="home" class="page active">
     <h1>Training Program</h1>
     <button onclick="showDrills('dribbling')">Dribbling</button>
@@ -70,14 +69,12 @@
     <button onclick="showDrills('postmoves')">Post Moves</button>
   </div>
 
-  <!-- Drills Page -->
   <div id="drills" class="page">
     <h2 id="drillTitle">Choose a Drill</h2>
     <div id="drillButtons"></div>
     <button class="back-btn" onclick="goHome()">Back</button>
   </div>
 
-  <!-- Workout Page -->
   <div id="workout" class="page">
     <h2 id="workoutTitle">Workout</h2>
     <table>
@@ -94,6 +91,44 @@
   </div>
 
   <script>
+    const drillNames = {
+      dribbling: {
+        1: "Basic Moves",
+        2: "Medium Moves",
+        3: "Advanced Moves",
+        4: "Combo Drills",
+        5: "Speed Drills"
+      },
+      shooting: {
+        1: "Spot Shooting",
+        2: "Mid-Range",
+        3: "Three-Point",
+        4: "Advanced Footwork",
+        5: "Game Situations"
+      },
+      strength: {
+        1: "Upper Body",
+        2: "Lower Body",
+        3: "Explosive Power",
+        4: "Core Strength",
+        5: "Full Body"
+      },
+      conditioning: {
+        1: "Agility & Speed",
+        2: "Endurance",
+        3: "Interval Training",
+        4: "Quickness",
+        5: "High-Intensity"
+      },
+      postmoves: {
+        1: "Low Post Moves",
+        2: "High Post Moves",
+        3: "Face-Up Game",
+        4: "Post Footwork",
+        5: "Advanced Post Combos"
+      }
+    };
+    
     const exercises = {
       dribbling: {
         1: [
@@ -248,7 +283,8 @@
       drillButtons.innerHTML = "";
       for (let i = 1; i <= 5; i++) {
         const btn = document.createElement("button");
-        btn.textContent = `Drill ${i}`;
+        // Use the descriptive name from the drillNames object
+        btn.textContent = drillNames[category][i] || `Drill ${i}`;
         btn.onclick = () => showWorkout(i);
         drillButtons.appendChild(btn);
       }
@@ -257,7 +293,10 @@
     function showWorkout(drillNumber) {
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
       document.getElementById("workout").classList.add("active");
-      document.getElementById("workoutTitle").textContent = `${currentCategory} - Drill ${drillNumber}`;
+      
+      // Get the descriptive drill name and set it as the table heading
+      const drillName = drillNames[currentCategory][drillNumber];
+      document.getElementById("workoutTitle").textContent = `${currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)} - ${drillName}`;
 
       const tableBody = document.getElementById("exerciseTable");
       tableBody.innerHTML = "";
